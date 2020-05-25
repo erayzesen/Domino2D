@@ -1,28 +1,24 @@
-//
-//  Game.hpp
-//  Template_Domino2D_Project
-//
 //  Created by Eray Zesen on 25.05.2020.
-//  Copyright © 2020 Eray Zesen. All rights reserved.
-//
+
 
 #ifndef Game_hpp
 #define Game_hpp
 
-#include <stdio.h>
+#include <iostream>
 #include "SDL2/SDL.h"
+using namespace std;
 
 class Game{
 public:
-    Game();
-    Game* create();
-    Game* setSize();
-    Game* run();
+    static Game* create(string projectName, int windowWidth, int windowHeight);
+    void run();
 private:
     //properties
-    int width=0;
-    int height=0;
-    
+    Game();
+    int _windowWidth=0;
+    int _windowHeight=0;
+    const char* _projectName;
+    SDL_Window* _window;
     
 };
 
