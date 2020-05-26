@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "Game.hpp"
+#include "Sprite.hpp"
 
 using namespace std;
 
