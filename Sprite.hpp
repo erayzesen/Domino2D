@@ -13,15 +13,21 @@
 #include "SDL2_image/SDL_image.h"
 #include <stdio.h>
 #include <iostream>
+#include "Node.hpp"
+#include "Renderer.hpp"
+
 using namespace std;
-class Sprite{
+class Sprite : public Node{
 public:
     Sprite();
-    static Sprite* create(string filePath);
-    SDL_Surface* _image;
+    static Sprite* create(string name,string filePath);
+    SDL_Texture* getTexture();
+    string getFilePath();
 private:
-    char* _filePath;
-    bool loadImage(const char* fp);
+    const char* _filePath;
+    bool initTexture();
+    SDL_Surface* _image=NULL;
+    SDL_Texture* _texture=NULL;
     //SDL_Surface* loadSurface(string path);
 };
 

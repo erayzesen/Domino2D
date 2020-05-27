@@ -7,7 +7,9 @@
 #include <stdio.h>
 #include <iostream>
 #include "Game.hpp"
+#include "Node.hpp"
 #include "Sprite.hpp"
+#include "Scene.hpp"
 
 using namespace std;
 

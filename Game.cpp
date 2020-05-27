@@ -5,6 +5,8 @@
 static Game* _game=nullptr;
 Game::Game(){
     SDL_Init(SDL_INIT_VIDEO);
+    _timer=Timer::create();
+    _timer->start();
     
 }
 Game* Game::create(string projectName,int windowWidth,int windowHeight){
@@ -26,45 +28,64 @@ Game* Game::create(string projectName,int windowWidth,int windowHeight){
     return _game;
 }
 
-Game* Game::addNode(Sprite *node){
-    SDL_Surface* srf= optimizeSurface(node->_image);
-    SDL_BlitSurface(srf,NULL,_screenSurface,NULL);
-    SDL_UpdateWindowSurface(_window);
-    return this;
-}
+
+
 SDL_Surface* Game::getScreenSurface(){
     return _game->_screenSurface;
 }
-SDL_Surface* Game::optimizeSurface(SDL_Surface *rawSurface){
-    SDL_Surface* optimizedSurface=SDL_ConvertSurface(rawSurface, _game->_screenSurface->format, 0);
-    if( optimizedSurface == NULL )
-    {
-        printf( "Unable to optimize image! SDL Error: %s\n", SDL_GetError() );
-    }
 
-    return optimizedSurface;
+Scene* Game::getCurrentScene(){
+    //Returns Current Scene Node
+    return _game->_scene;
 }
-void Game::run(){
+
+void Game::runWithScene(Scene* scene){
+    //Creating Window
     _window = SDL_CreateWindow(_projectName,SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED, _windowWidth, _windowHeight, SDL_WINDOW_OPENGL);
     if(_window==NULL){
         printf("Could not create window: s%n",SDL_GetError());
     }else{
+        //Initializing Renderer
+        Renderer::init(_window);
+        //Initializing EventHandler
+        EventHandler::init();
+        //Setting Surface of The Window
         _screenSurface=SDL_GetWindowSurface(_window);
     }
     SDL_Event e;
     bool quit = false;
     while (!quit){
+        //Increment the frame counter
+        _currentFrame++;
+        if(_currentFrame<1)continue;
+        
+        EventHandler::checkAndApplyEvents(e,scene);
+        //Calling Update Events
+        EventHandler::applyUpdateEvents(scene);
+        SDL_Delay((1000/_fps));
+        
+        //Clear Renderer
+        SDL_RenderClear(Renderer::getRenderer());
+        //Updating Renderer
+        Renderer::update(scene);
+        //Update Screen
+        SDL_RenderPresent(Renderer::getRenderer());
         while (SDL_PollEvent(&e)){
+            
             if (e.type == SDL_QUIT){
                 quit = true;
             }
         }
-        //Adding image to screen
-        SDL_Surface* srf=IMG_Load("../Resources/supermario.png");
-        SDL_Surface* optimized_srf=SDL_ConvertSurface(srf, _screenSurface->format,0);
-        SDL_BlitSurface(optimized_srf,NULL,_screenSurface,NULL);
-        SDL_UpdateWindowSurface(_window);
-        //End Tutorial
+        
+        
         
     }
+}
+bool Game::isTimeToFrame(){
+    
+    return true;
+}
+Game* Game::setFPS(int frameRate){
+    _game->_fps=frameRate;
+    return _game;
 }
