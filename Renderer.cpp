@@ -35,7 +35,7 @@ void Renderer::update(Scene* scene){
     //getting all of childs
     auto childs=scene->getChilds();
     map<string, Node*>::iterator itr;
-     Renderer::updateNodeRenderParts(scene,0,0);
+     Renderer::updateNodeRenderParts(scene,scene->getPosX(),scene->getPosY());
 }
 
 void Renderer::updateNodeRenderParts(Node* node, int xPos, int yPos){
@@ -60,7 +60,7 @@ void Renderer::updateNodeRenderParts(Node* node, int xPos, int yPos){
                 int x,y,w,h;
                 //Getting Texture Width and Height
                 SDL_QueryTexture(texture, NULL,NULL,&w,&h);
-                //Getting Relative Position of the Node
+                //Getting Relative Position of the Node:  Parent Child Relative Position + Node Position
                 x=xPos+sprite->getPosX();
                 y=yPos+sprite->getPosY();
                 //Creating Rect to Rendering
@@ -73,7 +73,7 @@ void Renderer::updateNodeRenderParts(Node* node, int xPos, int yPos){
                 printf("Texture Error!(Renderer::update()) Sprite name is %s and image path is %s .\n ",sprite->getName().c_str(),sprite->getFilePath().c_str());
             }
         }
-        Renderer::updateNodeRenderParts(itr->second,xPos,yPos);
+        Renderer::updateNodeRenderParts(itr->second,itr->second->getPosX(),itr->second->getPosY());
         
     }
 }

@@ -44,6 +44,10 @@ public:
     
     //Events
     virtual void onUpdate();
+    virtual void onKeyDown();
+    virtual void onKeyUp();
+    virtual void onMouseDown();
+    virtual void onMouseUp();
 protected:
 private:
     string _name;

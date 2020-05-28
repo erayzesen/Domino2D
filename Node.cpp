@@ -124,3 +124,19 @@ void Node::remove(){
 void Node::onUpdate(){
     //It's Empty and Virtual Function
 }
+void Node::onKeyUp(){
+    //It's Empty and Virtual Function
+}
+
+void Node::onKeyDown(){
+    //It's Empty and Virtual Function
+}
+
+void Node::onMouseUp(){
+    //It's Empty and Virtual Function
+}
+
+
+void Node::onMouseDown(){
+    //It's Empty and Virtual Function
+}
